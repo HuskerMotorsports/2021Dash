@@ -1,0 +1,71 @@
+# For more options and information see
+# http://rpf.io/configtxt
+# Some settings may impact device functionality. See link above for details
+
+# Screen
+max_usb_current=1
+config_hdmi_boost=10
+framebuffer_priority=2
+disable_fw_kms_setup=1
+hdmi_group=2
+hdmi_force_hotplug=1
+hdmi_mode=87
+hdmi_timings=1080 1 26 4 50 1920 1 8 2 6 0 0 0 60 0 135580000 3
+display_rotate=3 #1: 90; 2: 180; 3: 270
+
+# CAN Hat
+# dtparam=spi=on
+# dtoverlay=mcp2515-can0,oscillator=20000000,interrupt=25
+# dtoverlay=spi1-1cs
+#dtoverlay=spi-bcm2835-overlay
+
+# uncomment this if your display has a black border of unused pixels visible
+# and your display can output without overscan
+disable_overscan=0
+
+# uncomment to force a console size. By default it will be display's size minus
+# overscan.
+framebuffer_width=960
+framebuffer_height=540
+
+# Disable Bluetooth and Wifi
+dtoverlay=pi3-disable-bt
+#dtoverlay=pi3-disable-wifi
+
+# Overclock
+initial_turbo=60
+min_arm_freq=1400
+arm_freq=1400
+dtparam=sd_overclock=100
+#dtoverlay=sdtweak,overclock_50=100 
+avoid_pwm_pll=1
+gpu_freq=500
+core_freq=500
+sdram_freq=500
+sdram_schmoo=0x02000020
+over_voltage=4
+sdram_over_voltage=4
+force_turbo=1
+
+# Disable the rainbow splash screen
+disable_splash=1
+
+# Disable Safe Mode
+avoid_safe_mode=1
+
+# Set the bootloader delay to 0 seconds. The default is 1s if not specified.
+boot_delay=0
+
+# Set GPU Memory
+gpu_mem=320
+
+# Uncomment some or all of these to enable the optional hardware interfaces
+dtparam=i2c_arm=off
+#dtparam=i2s=on
+enable_uart = 0
+
+# Enable audio (loads snd_bcm2835)
+#dtparam=audio=on
+
+# Disable X
+start_x=0
