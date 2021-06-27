@@ -39,7 +39,7 @@ To test the code on a computer comment out line 133
 and line 2 <br />
 
 `import can`
-
+For 'Dash with Buttons' the settings screen is hidden in the top right corner over the 'ODO'.
 
 ## Screen
 
