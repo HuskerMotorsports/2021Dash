@@ -33,16 +33,20 @@ Open it, and create a blank text file named "ssh" (delete the extension ".txt").
 15. The cmdline.txt and config.txt are provided in the 'Pi Mod' folder. These files are found on the SD card. 
 
 ## Tips
+
+Kivy introduction Youtube playlist https://youtube.com/playlist?list=PLzMcBGfZo4-kSJVMyYeOQ8CXJ3z1k7gHn  <br />
+
 To test the code on a computer comment out line 133
 
 `CanBus = can.ThreadSafeBus(interface='socketcan', channel='can0', bitrate=1000000)` <br />
 
 and line 2 <br />
 
-`import can`
+`import can`<br />
+
 For 'Dash with Buttons' the settings screen is hidden in the top right corner over the 'ODO'.<br />
 
-Kivy introduction Youtube playlist https://youtube.com/playlist?list=PLzMcBGfZo4-kSJVMyYeOQ8CXJ3z1k7gHn
+
 
 ## Screen
 
