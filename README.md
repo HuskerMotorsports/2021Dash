@@ -1,5 +1,5 @@
 # Dash
-This dash code was created 
+'Dash' is the original code that was created. The 'Dash with Buttons' is our newest code that we use. This code can be used with physical buttons to navigate the dash. The buttons are connected to the GPIO pins on the Raspberry Pi.
 ## Materials
 Raspberry Pi <br />
 CANable USB to CAN adapter 
@@ -29,6 +29,7 @@ Open it, and create a blank text file named "ssh" (delete the extension ".txt").
 12. `import kivy`
 13. Exit python `exit()`
 14. `sudo apt fbi`
+15. The cmdline.txt and config.txt are provided in the 'Pi Mod' folder. These files are found on the SD card. 
 
 ## Tips
 To test the code on a computer comment out line 133
