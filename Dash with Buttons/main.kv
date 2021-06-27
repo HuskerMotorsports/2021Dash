@@ -1,0 +1,1984 @@
+<Button>:
+    font_size: 60
+
+<Label>:
+    halign: 'center'
+    valign: 'center'
+    text_color: 
+
+<MainScreen>:
+
+    FloatLayout:
+
+        size: root.width, root.height
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 0.1
+
+            Rectangle:
+                size: 100, 803
+                pos: 440, 162
+            
+            Rectangle:
+                size: 100, 803
+                pos: 1380, 162
+
+            Color:
+                rgba: 0, 1, 0, 1
+
+            Rectangle:
+                size: 100, 4 * root.throttle_percent    # top left rectangle 
+                pos: 440, 565
+
+            Color:
+                rgba: 1, 0, 0, 1
+
+            Rectangle:
+                size: 100, -4 * root.brake_percent      # bottem left rectangle 
+                pos: 440, 562
+
+            Color:
+                rgba: 0, 0, 1, 1
+            
+            Rectangle:
+                size: 100, 8.03 * root.clutch_percent # right rectangle
+                pos: 1380, 162
+
+            Color:
+                rgba: 1, 1 - (root.rpm - 13000) / 2000.0, 1 - (root.rpm - 10000) / 3000.0, 1
+
+
+            Ellipse:
+                size: 800, 800
+                pos: 560, 165
+                source: 'Pointer.png'
+                angle_start: -180
+                angle_end: (-180 + root.rpm * 270 / 15000) if (root.rpm <= 15000) else 90
+
+            Color:
+                rgba: 1, 1, 1, 1
+            
+            Rectangle:
+                size: 100, 3
+                pos: 440, 562
+           
+
+            Ellipse:
+                size: 800, 800
+                pos: 560, 165
+                source: 'Gague.png'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.22, 0.2
+            pos_hint: {"right": 1, "top": 0.85}
+            Label:
+                font_size: 150
+                text: str(root.lambda_value)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Lambda'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.22, 0.2
+            pos_hint: {"right": 1, "top": 0.6}
+            Label:
+                font_size: 150
+                text: str(root.oil_pressure)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Oil Pressure (PSI)'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 0.1) if int(root.oil_pressure) >= 20 else (1,0,0,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.22, 0.2
+            pos_hint: {"x":0,"top":0.85}
+            Label:
+                font_size: 150
+                text: str(root.head_temperature)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Head Temp (F)'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 0.1) if int(root.head_temperature) <= 210 else (1,0,0,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.22, 0.2
+            pos_hint: {"left":0,"top":0.6}
+            Label:
+                font_size: 150
+                text: str(root.coolant_temperature)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Coolant Temp (F)'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 0.1) if int(root.coolant_temperature) <= 210 else (1,0,0,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.22, 0.2
+            pos_hint: {"x":0,"top":0.35}
+            Label:
+                font_size: 150
+                text: str(root.fuel_pressure)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Fuel Pressure (kPa)'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 0.1) if int(root.fuel_pressure) >= 290 else (1,0,0,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.22, 0.2
+            pos_hint: {"right":1,"top":0.35}
+            Label:
+                font_size: 150
+                text: str(root.battery_voltage)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Battery Voltage (V)'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, 0.1) if int(root.battery_voltage) >= 12 else (1,0,0,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.2, 0.4
+            pos_hint: {"center_x":0.5,"center_y":0.55}
+            Label:
+                font_size: 400
+                text: 'N' if root.gear == 0 else str(root.gear)
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.18, 0.2
+            pos_hint: {"x":0.52,"top":0.35}
+            Label:
+                font_size: 200
+                text: str(root.speed)
+
+            Label:
+                size_hint: 1, 0.3
+                font_size: 40
+                text: 'Speed (MPH)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        Label:
+            size_hint: 0.18, 0.2
+            pos_hint: {"x":0.55,"top":0.55}
+            font_size: 40
+            halign: 'left'
+            text: 'LAP: 00:00.00'
+        
+        Label:
+            size_hint: 0.18, 0.2
+            pos_hint: {"x":0.55,"top":0.5}
+            font_size: 40
+            halign: 'left'
+            text: 'Delta: -0.00'
+
+        Label:
+            size_hint: 0.18, 0.2
+            pos_hint: {"center_x":0.5,"top":0.4}
+            font_size: 40
+            text: '0'
+        
+        Label:
+            size_hint: 0.18, 0.2
+            pos_hint: {"center_x":0.38,"center_y":0.525}
+            font_size: 40
+            text: '5'
+
+        Label:
+            size_hint: 0.18, 0.2
+            pos_hint: {"center_x":0.5,"top":0.85}
+            font_size: 40
+            text: '10'
+
+        Label:
+            size_hint: 0.18, 0.2
+            pos_hint: {"center_x":0.62,"center_y":0.525}
+            font_size: 40
+            text: '15'    
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Drive Mode"
+            id: Drive_Mode
+            on_release:
+                app.kivy_manager.change_screen('DriveModeScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.2,"y":0}
+            text: "Brake"
+            id: Brake
+            on_release:
+                app.kivy_manager.change_screen('BrakeScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.4,"y":0}
+            text: "Suspension"
+            id: Suspension
+            on_release:
+                app.kivy_manager.change_screen('SuspensionScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.6,"y":0}
+            text: "Track"
+            id: Track
+            on_release:
+                app.kivy_manager.change_screen('TrackScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.8,"y":0}
+            text: "Setup"
+            id: Setup
+            on_release:
+                app.kivy_manager.change_screen('SetupScreen')
+
+        Button:
+            size_hint: .2, 0.12 
+            pos_hint: {"x":0,"y":.9}
+            text: ""
+            background_color: (1, 1, 0, 0) 
+            on_release: 
+                app.kivy_manager.change_screen('SettingsScreen')
+        
+        Label:
+            size_hint: 0.1, 0.08
+            pos_hint: {"x":0,"top":1}
+            font_size: 60
+            halign: 'left'
+            text: "ODO " + str(root.odo)
+
+        Label:
+            size_hint: 0.08, 0.08
+            pos_hint: {"right":0.2,"top":1} #.84
+            font_size: 45
+            text: 'BSPD'
+
+            canvas.before:
+                Color:
+                    rgba: not root.BSPD_status, root.BSPD_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        Label:
+            size_hint: 0.08, 0.08
+            pos_hint: {"right":0.28,"top":1}
+            font_size: 45
+            text: 'BOTS'
+
+            canvas.before:
+                Color:
+                    rgba: not root.BOTS_status, root.BOTS_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+
+        Label:
+            size_hint: 0.1, 0.08
+            pos_hint: {"x":0.3,"top":1}
+            font_size: 60
+            text: root.tune_mode
+            canvas.before:
+                Color:
+                    rgba: (1,0,0,1) if root.tune_mode == 'Null' else (0,1,0,1) if root.tune_mode == 'F' else (0,0,1,1) if root.tune_mode == 'M' else (.5,.5,0,1) if root.tune_mode == 'A' else (0,.5,.5,1) if root.tune_mode == 'D' else (.5,.5,.5,1) if root.tune_mode == 'F2' else (.25,.25,0,1)
+                Rectangle:
+                    size: self.width ,self.height
+                    pos: self.pos
+
+        Label:
+            text: str(root.rpm)
+            font_size: 80
+            size_hint: 0.2, 0.08
+            pos_hint: {"center_x":0.5,"top":1}
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,0.1
+                Rectangle:
+                    size: self.width ,self.height
+                    pos: self.pos
+
+
+
+        Label:
+            size_hint: 0.08, 0.08
+            pos_hint: {"right":0.68,"top":1} #.76
+            font_size: 45
+            text: 'BSE'
+            
+            canvas.before:
+                Color:
+                    rgba: not root.BSE_status, root.BSE_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+
+        
+        Label:
+            size_hint: 0.08, 0.08 #(width_proportion, height_proportion)
+            pos_hint: {"right":0.76,"top":1} #.92
+            font_size: 45
+            text: 'TPS'
+            
+            canvas.before:
+                Color:
+                    rgba: root.TPS_status, not root.TPS_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        Label:
+            size_hint: 0.08, 0.08
+            pos_hint: {"right":.84,"top":1} #1
+            font_size: 45
+            text: 'APPS'
+            
+            canvas.before:
+                Color:
+                    rgba: root.APPS_status, not root.APPS_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+        
+        Label:
+            size_hint: 0.08, 0.08
+            pos_hint: {"right":.92,"top":1}
+            font_size: 45
+            text: 'BAGR'
+            
+            canvas.before:
+                Color:
+                    rgba: not root.BSEA_status, root.BSEA_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            
+
+        Label:
+            size_hint: 0.08, 0.08
+            pos_hint: {"right":1,"top":1}
+            font_size: 45
+            text: 'AAGR'
+            
+            canvas.before:
+                Color:
+                    rgba: not root.APPSA_status, root.APPSA_status, 0, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+
+
+
+
+<BrakeScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        # BoxLayout:
+        #     orientation: 'vertical'
+        #     size_hint: 0.2, 0.1
+        #     pos_hint: {"x":0.4,"top":1}
+        #     Label:
+        #         font_size: 100
+        #         text: str(root.brake_temperature)
+
+        #     Label:
+        #         size_hint: 1, 0.2
+        #         font_size: 20
+        #         text: 'Brake Temp (F)'
+        #         canvas:
+        #             Color:
+        #                 rgba: 1, 1, 1, 0.1
+        #             Rectangle:
+        #                 size: self.size
+        #                 pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"x":0.1,"top":0.9}
+            Label:
+                font_size: 250
+                text: str(root.front_brake_pressure)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Front Brake Pressure (PSI)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"right":0.9,"top":0.9}
+            Label:
+                font_size: 250
+                text: str(root.rear_brake_pressure)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Rear Brake Pressure (PSI)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.8, 0.3
+            pos_hint: {"center_x":0.5,"y":0.2}
+            Label:
+                font_size: 300
+                text: root.brake_ratio_text
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'F:R Ratio (%)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            id: Return
+            on_release:
+                app.kivy_manager.change_screen('MainScreen')
+
+
+<SuspensionScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        canvas:
+            Color:
+                rgba: 1, 1, 1, 0.1
+            
+            Rectangle:
+                size: 1920, 54
+                pos: 0, 1026
+
+            Color:
+                rgba: 1, 1, 1, 1
+            
+            Rectangle:
+                size: 2, 54
+                pos: 959, 1026
+
+            Color:
+                rgba: 0, 1, 0, 1
+            
+            Rectangle:
+                size: 2 - 7.5 * root.steering_angle if (root.steering_angle != 0) else 0, 54
+                pos: 959 if (2 - 7.5 * root.steering_angle < 0) else 960, 1026
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"x":0.1,"top":0.9}
+            Label:
+                font_size: 300
+                text: str(root.front_heave)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Front Heave (mm)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"right":0.9,"top":0.9}
+            Label:
+                font_size: 300
+                text: str(root.front_roll)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Front Roll (mm)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"x":0.1,"y":0.2}
+            Label:
+                font_size: 300
+                text: str(root.rear_heave)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Rear Heave (mm)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"right":0.9,"y":0.2}
+            Label:
+                font_size: 300
+                text: str(root.rear_roll)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Rear Roll (mm)'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            id: Return
+            on_release:
+                app.kivy_manager.change_screen('MainScreen')
+
+<TrackScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        Button:
+            size_hint: 0.5, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            id: Return
+            on_release:
+                app.kivy_manager.change_screen('MainScreen')
+        
+        Button:
+            size_hint: 0.5, 0.12
+            pos_hint: {"x":0.5,"y":0}
+            text: "Set Beacon"
+            id: Set_Beacon
+            on_release:
+                app.sendCanMsg('SetBeacon',0)
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"x":0.1,"top":0.9}
+            Label:
+                font_size: 100
+                text: "{:.7f}".format(root.current_latitude)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Current Latitude'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"right":0.9,"top":0.9}
+            Label:
+                font_size: 100
+                text: "{:.7f}".format(root.current_longitude)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Current Longitude'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"x":0.1,"y":0.2}
+            Label:
+                font_size: 100
+                text: "{:.7f}".format(root.beacon_latitude)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Beacon Latitude'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.35, 0.3
+            pos_hint: {"right":0.9,"y":0.2}
+            Label:
+                font_size: 100
+                text: "{:.7f}".format(root.beacon_longitude)
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 50
+                text: 'Beacon Longitude'
+                canvas:
+                    Color:
+                        rgba: 1, 1, 1, 0.1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+<DriveModeScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+        BoxLayout:
+            orientation: 'vertical'
+            pos_hint: {"right":1,"top":1}
+            size_hint: 1, 0.87
+            spacing: 50
+
+            BoxLayout:
+                Label:
+                    size_hint: 0.2 , 1
+                    text: 'Gearbox'
+                    font_size: 60
+
+                BoxLayout: 
+                    ToggleButton:
+                        text: 'Manual'
+                        group: 'Gearbox'
+                        id: Gearbox_Manual
+                        on_release:
+                            app.sendCanMsg('ShiftMode',1)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'Auto'
+                        group: 'Gearbox'
+                        id: Gearbox_Auto
+                        on_release:
+                            app.sendCanMsg('ShiftMode',2)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: 'Drag'
+                        group: 'Gearbox'
+                        id: Gearbox_Drag
+                        on_release:
+                            app.sendCanMsg('ShiftMode',3)
+                            self.background_color = (0,1,0,1)
+
+            BoxLayout:
+
+                Label:
+                    size_hint: 0.2 , 1
+                    text: 'Launch'
+                    font_size: 60
+                BoxLayout: 
+					ToggleButton:
+                        text: 'D'
+                        group: 'LaunchControl'
+                        id: Launch_D
+                        on_release:
+                            app.sendCanMsg('LaunchMap',10)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: 'OFF'
+                        group: 'LaunchControl'
+                        id: Launch_OFF
+                        on_release:
+                            app.sendCanMsg('LaunchMap',0)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '1'
+                        group: 'LaunchControl'
+                        id: Launch_1
+                        on_release:
+                            app.sendCanMsg('LaunchMap',1)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '2'
+                        group: 'LaunchControl'
+                        id: Launch_2
+                        group: 'LaunchControl'
+                        on_release:
+                            app.sendCanMsg('LaunchMap',2)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '3'
+                        group: 'LaunchControl'
+                        id: Launch_3
+                        on_release:
+                            app.sendCanMsg('LaunchMap',3)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: '4'
+                        group: 'LaunchControl'
+                        id: Launch_4
+                        on_release:
+                            app.sendCanMsg('LaunchMap',4)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: '5'
+                        group: 'LaunchControl'
+                        id: Launch_5
+                        on_release:
+                            app.sendCanMsg('LaunchMap',5)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: '6'
+                        group: 'LaunchControl'
+                        id: Launch_6
+                        on_release:
+                            app.sendCanMsg('LaunchMap',6)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: '7'
+                        group: 'LaunchControl'
+                        id: Launch_7
+                        on_release:
+                            app.sendCanMsg('LaunchMap',7)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: '8'
+                        group: 'LaunchControl'
+                        id: Launch_8
+                        on_release:
+                            app.sendCanMsg('LaunchMap',8)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: '9'
+                        group: 'LaunchControl'
+                        id: Launch_9
+                        on_release:
+                            app.sendCanMsg('LaunchMap',9)
+                            self.background_color = (0,1,0,1)					
+            
+            BoxLayout:
+                Label:
+                    size_hint: 0.2 , 1
+                    text: 'Traction'
+                    font_size: 60
+
+                BoxLayout: 
+					ToggleButton:
+                        text: 'D'
+                        group: 'TractionControl'
+                        id: Traction_D
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',10)
+                            self.background_color = (0,1,0,1)
+					ToggleButton:
+                        text: 'OFF'
+                        group: 'TractionControl'
+                        id: Traction_OFF
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',0)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '1'
+                        group: 'TractionControl'
+                        id: Traction_1
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',1)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '2'
+                        group: 'TractionControl'
+                        id: Traction_2
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',2)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '3'
+                        group: 'TractionControl'
+                        id: Traction_3
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',3)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '4'
+                        group: 'TractionControl'
+                        id: Traction_4
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',4)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '5'
+                        group: 'TractionControl'
+                        id: Traction_5
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',5)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '6'
+                        group: 'TractionControl'
+                        id: Traction_6
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',6)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '7'
+                        group: 'TractionControl'
+                        id: Traction_7
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',7)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '8'
+                        group: 'TractionControl'
+                        id: Traction_8
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',8)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: '9'
+                        group: 'TractionControl'
+                        id: Traction_9
+                        on_release:
+                            app.sendCanMsg('TractionSlipMap',9)
+                            self.background_color = (0,1,0,1)
+                    
+            BoxLayout:
+                Label:
+                    size_hint: 0.2 , 1
+                    text: 'Throttle'
+                    font_size: 60
+
+                BoxLayout: 
+                    ToggleButton:
+                        text: 'Normal'
+                        group: 'ThrottleMap'
+                        id: Throttle_Normal
+                        on_release:
+                            app.sendCanMsg('ThrottleMap',0)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'Normal2'
+                        group: 'ThrottleMap'
+                        id: Throttle_Normal2
+                        on_release:
+                            app.sendCanMsg('ThrottleMap',1)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'Skipad'
+                        group: 'ThrottleMap'
+                        id: Throttle_Skipad
+                        on_release:
+                            app.sendCanMsg('ThrottleMap',2)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'Drag'
+                        group: 'ThrottleMap'
+                        id: Throttle_Drag
+                        on_release:
+                            app.sendCanMsg('ThrottleMap',3)
+                            self.background_color = (0,1,0,1)
+
+            BoxLayout:
+                Label:
+                    size_hint: 0.2 , 1
+                    text: 'Fuel'
+                    font_size: 60
+                BoxLayout:
+                    ToggleButton:
+                        text: 'A'
+                        group: 'Engine'
+                        id: Fuel_A
+                        on_release:
+                            app.sendCanMsg('EngineMap',0)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'B'
+                        group: 'Engine'
+                        id: Fuel_B
+                        on_release:
+                            app.sendCanMsg('EngineMap',1)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'C'
+                        group: 'Engine'
+                        id: Fuel_C
+                        on_release:
+                            app.sendCanMsg('EngineMap',2)
+                            self.background_color = (0,1,0,1)
+                    ToggleButton:
+                        text: 'D'
+                        group: 'Engine'
+                        id: Fuel_D
+                        on_release:
+                            app.sendCanMsg('EngineMap',3)
+                            self.background_color = (0,1,0,1)
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            id: Return
+            on_release:
+                app.kivy_manager.change_screen('MainScreen')
+
+<SettingsScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        ScrollView:
+            pos_hint: {"right":1,"top":1}
+            size_hint: 1, 0.87
+            scroll_distance: 20
+
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                row_default_height: root.height*0.1
+                spacing: [0,5] 
+                height: self.minimum_height
+
+                Button:
+                    text: 'Launch Terminal'
+                    id:Launch_Terminal
+                    on_release:
+                        app.stopApp()
+
+                Button:
+                    text: 'Restart Dash'
+                    id:Restart_Dash
+                    on_release:
+                        app.restart()
+
+                Label:
+                    text: root.ip_address
+                    font_size: 40
+
+                Label:
+                    text: 'HUSKERDASH 2020.4'
+                    font_size: 40
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            id:Return
+            on_release:
+                app.kivy_manager.change_screen('MainScreen')
+
+<SetupScreen>:
+    FloatLayout:
+        size: root.width, root.height     
+        
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: .60, .70
+            pos_hint: {"right":.80,"top":1.0}
+
+            Image:
+                source: 'Dash_Top_View_BW.png'
+                allow_stretch: True
+
+
+        BoxLayout:                      ## Front Left
+            orientation: 'vertical'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":0.30,"top":1.0}
+            Label:
+                # size_hint: 1, 0.5
+                font_size: 40
+                text: 'Front Left'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                    
+        BoxLayout:                      ## Front Left Tire Pressure
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.10,"top":.90}
+            Label:
+                font_size: 50
+                text: str(root.front_left_tire_pressure)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Pressure'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Front Left Toe
+            orientation: 'vertical'
+            size_hint: 0.10, 0.1
+            pos_hint: {"right":0.20,"top":.90}
+            Label:
+                font_size: 50
+                text: str(root.front_left_toe)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Toe'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+            
+        BoxLayout:                      ## Front Left Cam
+            orientation: 'vertical'
+            size_hint: 0.10, 0.1
+            pos_hint: {"right":0.30,"top":.90}
+            Label:
+                font_size: 50
+                text: str(root.front_left_cam)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Camber'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        BoxLayout:                      ## Front Heave
+            orientation: 'horizontal'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":.30,"top":0.77}
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Front Heave:'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                font_size: 50
+                text: str(root.front_heave)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                    
+        BoxLayout:                      ## Front Heave HSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.10,"top":.67}
+            Label:
+                font_size: 50
+                text: str(root.front_heave_hsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'HSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        BoxLayout:                      ## Front Heave LSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.20,"top":.67}
+            Label:
+                font_size: 50
+                text: str(root.front_heave_lsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'LSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+        BoxLayout:                      ## Front Heave LSC
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.30,"top":.67}
+            Label:
+                font_size: 50
+                text: str(root.front_heave_lsc)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Comp'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Front Roll
+            orientation: 'horizontal'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":.3,"top":.55}
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Front Roll:'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                font_size: 50
+                text: str(root.front_roll)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+                    
+        BoxLayout:                      ## Front Roll HSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.1,"top":.45}
+            Label:
+                font_size: 50
+                text: str(root.front_roll_hsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'HSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Front Roll LSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.2,"top":.45}
+            Label:
+                font_size: 50
+                text: str(root.front_roll_lsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'LSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+        BoxLayout:                      ## Front Roll LSC
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.3,"top":.45}
+            Label:
+                font_size: 50
+                text: str(root.front_roll_lsc)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Comp'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Left
+            orientation: 'vertical'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":0.30,"top":.32}
+            Label:
+                # size_hint: 1, 0.5
+                font_size: 40
+                text: 'Rear Left'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Left Tire Pressure
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.10,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.rear_left_tire_pressure)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Pressure'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Left Toe
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.20,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.rear_left_toe)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Toe'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+            
+        BoxLayout:                      ## Rear Left Cam
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.30,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.rear_left_cam)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Camber'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Front Right
+            orientation: 'vertical'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":1.0,"top":1.0}
+            Label:
+                # size_hint: 1, 0.5
+                font_size: 40
+                text: 'Front Right'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Front Right Tire Pressure
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.80,"top":.90}
+            Label:
+                font_size: 50
+                text: str(root.front_right_tire_pressure)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Pressure'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+        BoxLayout:                      ## Front Right Toe
+            orientation: 'vertical'
+            size_hint: 0.10, 0.1
+            pos_hint: {"right":.90,"top":.90}
+            Label:
+                font_size: 50
+                text: str(root.front_right_toe)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Toe'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+            
+        BoxLayout:                      ## Front Right Cam
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":1.0,"top":.90}
+            Label:
+                font_size: 50
+                text: str(root.front_right_cam)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Camber'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Heave
+            orientation: 'horizontal'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":1.0,"top":.77}
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Rear Heave:'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                font_size: 50
+                text: str(root.rear_heave)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Heave HSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.80,"top":.67}
+            Label:
+                font_size: 50
+                text: str(root.rear_heave_hsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'HSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Heave LSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.90,"top":.67}
+            Label:
+                font_size: 50
+                text: str(root.rear_heave_lsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'LSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+        BoxLayout:                      ## Rear Heave LSC
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":1.0,"top":.67}
+            Label:
+                font_size: 50
+                text: str(root.rear_heave_lsc)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Comp'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Rear Roll
+            orientation: 'horizontal'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":1.0,"top":.55}
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Rear Roll:'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                font_size: 50
+                text: str(root.rear_roll)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        BoxLayout:                      ## Rear Roll HSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.80,"top":.45}
+            Label:
+                font_size: 50
+                text: str(root.rear_roll_hsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'HSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        BoxLayout:                      ## Rear Roll LSR
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.90,"top":.45}
+            Label:
+                font_size: 50
+                text: str(root.rear_roll_lsr)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'LSR'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+        BoxLayout:                      ## Rear Roll LSC
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":1.0,"top":.45}
+            Label:
+                font_size: 50
+                text: str(root.rear_roll_lsc)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Comp'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+        BoxLayout:                      ## Rear Right
+            orientation: 'vertical'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":1.0,"top":.32}
+            Label:
+                # size_hint: 1, 0.5
+                font_size: 40
+                text: 'Rear Right'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        BoxLayout:                      ## Rear Right Tire Pressure
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.80,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.rear_right_tire_pressure)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Pressure'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos            
+        
+        BoxLayout:                      ## Rear Right Toe
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":.9,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.rear_right_toe)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Toe'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        
+            
+        BoxLayout:                      ## Rear Right Cam
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":1.0,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.rear_right_cam)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Camber'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        BoxLayout:                      ## Differential
+            orientation: 'horizontal'
+            size_hint: 0.3, 0.1
+            pos_hint: {"right":0.65,"top":.32}
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Differential'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .1) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Diff preload
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.45,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.diff_preload)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 40
+                text: 'Preload'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        BoxLayout:                      ## Accel Ramp ang 
+            orientation: 'vertical'
+            size_hint: 0.10, 0.1
+            pos_hint: {"right":0.55,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.accel_ramp_ang)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 35
+                text: 'Acel RA'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                    
+        BoxLayout:                      ## Decel Ramp ang 
+            orientation: 'vertical'
+            size_hint: 0.1, 0.1
+            pos_hint: {"right":0.65,"top":.22}
+            Label:
+                font_size: 50
+                text: str(root.decel_ramp_ang)
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+            Label:
+                size_hint: 1, 1
+                font_size: 35
+                text: 'Dcel RA'
+                canvas.before:
+                    Color:
+                        rgba: (1, 1, 1, .15) 
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            id: Return
+            on_release:
+                app.kivy_manager.change_screen('MainScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.2,"y":0}
+            text: "Tires"
+            id: Tires
+            on_release:
+                app.kivy_manager.change_screen('TireScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.4,"y":0}
+            text: "Heave"
+            id: Heave
+            on_release:
+                app.kivy_manager.change_screen('HeaveScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.6,"y":0}
+            text: "Roll"
+            id: Roll
+            on_release:
+                app.kivy_manager.change_screen('RollScreen')
+
+        Button:
+            size_hint: 0.2, 0.12
+            pos_hint: {"x":0.8,"y":0}
+            text: "Diff"
+            id: Diff
+            on_release:
+                app.kivy_manager.change_screen('DiffScreen')
+
+<TireScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        Button: 
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            on_release:
+                app.kivy_manager.change_screen('SetupScreen')
+
+<HeaveScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            on_release:
+                app.kivy_manager.change_screen('SetupScreen')
+
+<RollScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            on_release:
+                app.kivy_manager.change_screen('SetupScreen')
+
+<DiffScreen>:
+
+    FloatLayout:
+        size: root.width, root.height
+
+        Button:
+            size_hint: 1, 0.12
+            pos_hint: {"x":0,"y":0}
+            text: "Return"
+            on_release:
+                app.kivy_manager.change_screen('SetupScreen')      
