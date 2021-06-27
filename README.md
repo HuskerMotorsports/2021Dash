@@ -1,6 +1,6 @@
 # Dash
-This code uses Python and Kivy. It was created to receive and transmit CAN to an ECU. 
-'Dash' is the original code that was created. The 'Dash with Buttons' is our newest code that we use. This code can be used with physical buttons to navigate the dash. The buttons are connected to the GPIO pins on the Raspberry Pi.
+This code uses Python and Kivy. It was created to receive and transmit CAN to an ECU. Our team uses a Motec system.
+'Dash' is the original code that was created. The 'Dash with Buttons' is our newest code that we use. This code can be used with physical buttons to navigate the dash. The buttons are connected to the GPIO pins on the Raspberry Pi. 
 ## Materials
 Raspberry Pi <br />
 CANable USB to CAN adapter 
@@ -57,6 +57,7 @@ For 'Dash with Buttons' the settings screen is hidden in the top right corner ov
 
 ![basic Page](Pictures/Picture2.png)
 ##### Figure 2: Drive Mode 
+This screen uses CAN to select drive setups in the ECU.
 
 
 ![basic Page](Pictures/Picture3.png)
