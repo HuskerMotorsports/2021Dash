@@ -46,6 +46,8 @@ and line 2 <br />
 
 For 'Dash with Buttons' the settings screen is hidden in the top right corner over the 'ODO'.<br />
 
+In the Raspberry Pi the kivy and python files with the pictures should be located in `/home/pi/Dash`. The files should also be keep the same name. 
+
 
 
 ## Screen
