@@ -9,21 +9,6 @@ Raspberry Pi compatible touch screen <br />
 Micro SD card 32GB class10 U1
  
 
-## Tips
-
-Kivy introduction Youtube playlist https://youtube.com/playlist?list=PLzMcBGfZo4-kSJVMyYeOQ8CXJ3z1k7gHn  <br />
-
-To test the code on a computer comment out line 133
-
-`CanBus = can.ThreadSafeBus(interface='socketcan', channel='can0', bitrate=1000000)` <br />
-
-and line 2 <br />
-
-`import can`<br />
-
-For 'Dash with Buttons' the settings screen is hidden in the top right corner over the 'ODO'.<br />
-
-In the Raspberry Pi the kivy and python files with the pictures should be located in `/home/pi/Dash`. The files should also keep the same name, main.kv and main.py. 
 
 
 
